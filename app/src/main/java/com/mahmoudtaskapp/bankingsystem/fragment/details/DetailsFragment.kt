@@ -111,21 +111,17 @@ class DetailsFragment : Fragment() {
 
 
     private fun updateCustomerSender(customer: Customer) : Boolean{
-        if (isEntryValid()){
-            return if (customer.balance >= binding.balanceName.text.toString().toInt()){
-                val newItem = customer.copy(balance = customer.balance - binding.balanceName.text.toString().toInt())
-                viewModel.updateBalanceCutomer(newItem)
-                senderName = customer.customerName
-                amount = binding.balanceName.text.toString().toInt()
-                true
+        return if (customer.balance >= binding.balanceName.text.toString().toInt()){
+            val newItem = customer.copy(balance = customer.balance - binding.balanceName.text.toString().toInt())
+            viewModel.updateBalanceCutomer(newItem)
+            senderName = customer.customerName
+            amount = binding.balanceName.text.toString().toInt()
+            true
 
-            }else{
-                Toast.makeText(requireContext(),"Amount is bigger than balance",Toast.LENGTH_SHORT).show()
-                false
-            }
+        }else{
+            Toast.makeText(requireContext(),"Amount is bigger than balance",Toast.LENGTH_SHORT).show()
+            false
         }
-        Toast.makeText(requireContext(), "Write amount " , Toast.LENGTH_SHORT).show()
-        return false
     }
 
     private fun updateCustomerRecipient(customer: Customer) : Boolean{
@@ -146,7 +142,7 @@ class DetailsFragment : Fragment() {
                 }
 
         }
-        Toast.makeText(requireContext(), "Write receiver Name" , Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), "Field Required!" , Toast.LENGTH_SHORT).show()
         return false
     }
 

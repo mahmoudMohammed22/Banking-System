@@ -9,6 +9,7 @@
     <string name="sender">Sender Name : %s</string>
     <string name="recipient">Recipient Name : %s</string>
     <string name="amount">Amount : %s</string>
+    <string name="fragment_details">Details</string>
 
 
 </resources>

@@ -17,6 +17,6 @@ interface TransformDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTransform(transform: Transform)
 
-    @Query("SELECT * from transform_table ORDER BY sender ASC")
+    @Query("SELECT * from transform_table ")
     fun getTransform(): Flow<List<Transform>>
 }
