@@ -16,6 +16,9 @@ import com.mahmoudtaskapp.bankingsystem.databinding.FragmentDetailsBinding
 import com.mahmoudtaskapp.bankingsystem.module.Customer
 import com.mahmoudtaskapp.bankingsystem.roomdatabase.AppDatabase
 import com.mahmoudtaskapp.bankingsystem.roomdatabase.loadCustomers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import kotlin.math.log
 
 
 class DetailsFragment : Fragment() {
@@ -33,8 +36,9 @@ class DetailsFragment : Fragment() {
     private var recipientName :String? = null
     private var amount :Int? = null
 
-    lateinit var customers : List<Customer>
-    private  var receiver: Customer? = null
+
+    // list from name customers
+    private lateinit var customerName : List<String>
 
 
     override fun onCreateView(
@@ -52,15 +56,14 @@ class DetailsFragment : Fragment() {
         val id = navigationArgs.itemId
 
 
+        // use that to get name from customer and remove name clicked about it
+         viewModel.getReceiver(id)
 
 
         viewModel.getCustomer(id).observe(this.viewLifecycleOwner){ displayCustomer->
             bind(displayCustomer)
         }
 
-        viewModel.getCustomers.observe(this.viewLifecycleOwner){
-           viewModel.getReceiver()
-        }
 
         viewModel.receiversName.observe(viewLifecycleOwner) {
             val receivers = it
@@ -71,18 +74,15 @@ class DetailsFragment : Fragment() {
             )
 
             binding.receiverName.setAdapter(adapter)
+            customerName = it
 
-            binding.receiverName.setOnItemClickListener { _, _, position, _ ->
-                val customers = viewModel.getCustomers.value
-                receiver = customers!![position]
-                Log.d("log","customer : $receiver")
-            }
         }
 
 
 
     }
 
+    // to add item in details and make transform
     private fun bind (customer : Customer){
         binding.apply {
             name.text = getString(R.string.name,customer.customerName)
@@ -90,18 +90,16 @@ class DetailsFragment : Fragment() {
             balance.text = getString(R.string.balance,customer.balance)
 
             binding.transform.setOnClickListener {
-                if (updateCustomerRecipient(customer)){
+                if (updateCustomerRecipient(customerName)){
                     if (updateCustomerSender(customer)){
                         addTransfromItem()
-
                     }
                 }
             }
-
         }
-
     }
 
+    // check if edit text is not empty
     private fun isEntryValid(): Boolean {
         return viewModel.isEntryValid(
             binding.receiverName.text.toString(),
@@ -110,6 +108,7 @@ class DetailsFragment : Fragment() {
     }
 
 
+    // update sender customer
     private fun updateCustomerSender(customer: Customer) : Boolean{
         return if (customer.balance >= binding.balanceName.text.toString().toInt()){
             val newItem = customer.copy(balance = customer.balance - binding.balanceName.text.toString().toInt())
@@ -124,28 +123,31 @@ class DetailsFragment : Fragment() {
         }
     }
 
-    private fun updateCustomerRecipient(customer: Customer) : Boolean{
+    // update receiver customer
+    private fun updateCustomerRecipient(customerName : List<String>) : Boolean{
         if (isEntryValid()){
-                return if (receiver?.customerName == customer.customerName ) {
-                    Toast.makeText(requireContext(), "Same Customer", Toast.LENGTH_SHORT).show()
+                if (binding.receiverName.text.toString() in customerName){
+                    viewModel.getReceiverData(binding.receiverName.text.toString())
+                    viewModel.customer.observe(this.viewLifecycleOwner){
+                      val newItem =  it.balance + binding.balanceName.text.toString().toInt()
+                        viewModel.updateBalanceCutomer(Customer(it.id,it.customerName,newItem,it.accountNum))
+                        Log.d("log","customerNmae: $recipientName")
+                        Log.d("log","customerNS: $it")
+                    }
+                    recipientName = binding.receiverName.text.toString()
+                    return true
 
-                    false
-                }else if (receiver != null){
-                    val newItem = receiver!!.copy(
-                        balance = receiver!!.balance + binding.balanceName.text.toString().toInt())
-                    viewModel.updateBalanceCutomer(newItem)
-                    recipientName = receiver!!.customerName
-                    true
-                }else {
-                    Toast.makeText(requireContext(), "Customer Not Found", Toast.LENGTH_SHORT).show()
-                    false
+                }else{
+                    Toast.makeText(requireContext(), "Not Found" , Toast.LENGTH_SHORT).show()
+                    return false
+
                 }
-
         }
         Toast.makeText(requireContext(), "Field Required!" , Toast.LENGTH_SHORT).show()
         return false
     }
 
+    // insert transform operation
     private fun addTransfromItem() {
         viewModel.addItemTransform(
             senderName.toString(),recipientName.toString(), amount.toString()
@@ -154,6 +156,7 @@ class DetailsFragment : Fragment() {
         findNavController().navigate(DetailsFragmentDirections.actionDetailsFragmentToCustomerFragment())
 
     }
+
 
 
 

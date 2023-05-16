@@ -1,5 +1,6 @@
 package com.mahmoudtaskapp.bankingsystem.repositrey
 
+import android.provider.ContactsContract.Data
 import com.mahmoudtaskapp.bankingsystem.module.Customer
 import com.mahmoudtaskapp.bankingsystem.module.Transform
 import com.mahmoudtaskapp.bankingsystem.roomdatabase.AppDatabase
@@ -26,6 +27,23 @@ class Respiratory(val database : AppDatabase) {
         database.transformDao().insertTransform(transform)
     }
 
+    suspend fun getReceiver(id: Int):List<Customer>{
+        val data : List<Customer>
+        withContext(Dispatchers.IO){
+          data =  database.customerDao().getReceiver(id)
+
+        }
+        return data
+    }
+
+    suspend fun getReceiverData(name: String):Customer{
+        val data : Customer
+        withContext(Dispatchers.IO){
+            data =  database.customerDao().getReceiverData(name)
+
+        }
+        return data
+    }
 
 
 

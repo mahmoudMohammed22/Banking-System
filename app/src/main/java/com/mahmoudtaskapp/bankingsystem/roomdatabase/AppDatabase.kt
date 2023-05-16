@@ -55,16 +55,16 @@ abstract class AppDatabase : RoomDatabase() {
 }
 fun loadCustomers():List<Customer>{
     return listOf<Customer>(
-        Customer(customerName = "Mahmoud mohammed", accountNum = 123654221 , balance = 120000),
+        Customer(customerName = "Mahmoud Mohammed", accountNum = 123654221 , balance = 120000),
         Customer(customerName = "Mahmoud sayed", accountNum = 123334457 , balance = 150000),
-        Customer(customerName = "Abdo mohammed", accountNum = 442221554 , balance = 80000),
+        Customer(customerName = "Abdo Mohammed", accountNum = 442221554 , balance = 80000),
         Customer(customerName = "Ragab mohammed", accountNum = 552331442 , balance = 200000),
-        Customer(customerName = "Youssef samir", accountNum = 772661552 , balance = 30000),
-        Customer(customerName = "Mohammed youssef", accountNum = 321654312 , balance = 90000),
-        Customer(customerName = "Mostafa hamed", accountNum = 675422333 , balance = 70000),
-        Customer(customerName = "Sayed azz", accountNum = 987123432 , balance = 17000),
-        Customer(customerName = "Smouel samir", accountNum = 333512644 , balance = 1200000),
-        Customer(customerName = "Zied mostafa", accountNum = 443112332 , balance = 300000)
+        Customer(customerName = "Youssef Samir", accountNum = 772661552 , balance = 30000),
+        Customer(customerName = "Mohammed Youssef", accountNum = 321654312 , balance = 90000),
+        Customer(customerName = "Mostafa Hamed", accountNum = 675422333 , balance = 70000),
+        Customer(customerName = "Sayed Azz", accountNum = 987123432 , balance = 17000),
+        Customer(customerName = "Smouel Samir", accountNum = 333512644 , balance = 1200000),
+        Customer(customerName = "Zied Mostafa", accountNum = 443112332 , balance = 300000)
 
     )
 }

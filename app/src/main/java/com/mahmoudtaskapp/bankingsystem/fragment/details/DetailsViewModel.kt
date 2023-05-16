@@ -7,6 +7,7 @@ import com.mahmoudtaskapp.bankingsystem.module.Customer
 import com.mahmoudtaskapp.bankingsystem.module.Transform
 import com.mahmoudtaskapp.bankingsystem.repositrey.Respiratory
 import com.mahmoudtaskapp.bankingsystem.roomdatabase.AppDatabase
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class DetailsViewModel(application: Application) : AndroidViewModel(application) {
@@ -15,6 +16,13 @@ class DetailsViewModel(application: Application) : AndroidViewModel(application)
 
     private val _receiversName = MutableLiveData<List<String>>()
     val receiversName: LiveData<List<String>>  = _receiversName
+
+
+
+    private val _customer= MutableLiveData<Customer>()
+    val customer: LiveData<Customer> = _customer
+
+
 
     val database = AppDatabase.getDatabase(application)
     val infoRepository = Respiratory(database)
@@ -62,14 +70,32 @@ class DetailsViewModel(application: Application) : AndroidViewModel(application)
 
     }
 
-    val getCustomers = infoRepository.getCustomers.asLiveData()
+//    val getCustomers = infoRepository.getCustomers.asLiveData()
 
-    fun getReceiver(){
-            val customerList = getCustomers.value
-            _receiversName.value = customerList!!.map { it.customerName }
-            Log.d("log",_receiversName.value.toString()
-            )
+    fun getReceiver(id: Int){
+        viewModelScope.launch {
+          try {
+            val customerList = infoRepository.getReceiver(id)
+              _receiversName.value = customerList!!.map { it.customerName }
+              Log.d("log",_receiversName.value.toString()
+              )
+          }catch (e:Exception){
+              Log.d("log",e.message.toString())
+          }
 
+        }
+    }
+
+
+    fun getReceiverData(name: String){
+        viewModelScope.launch {
+            try {
+                _customer.value = infoRepository.getReceiverData(name)
+            }catch (e:Exception){
+                Log.d("log",e.message.toString())
+            }
+
+        }
     }
 
 
