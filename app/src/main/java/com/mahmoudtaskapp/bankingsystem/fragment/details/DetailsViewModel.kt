@@ -31,6 +31,7 @@ class DetailsViewModel(application: Application) : AndroidViewModel(application)
         return infoRepository.getCustomer(id).asLiveData()
     }
 
+    // use that to update balance Customer
     fun updateBalanceCutomer(customer: Customer){
         viewModelScope.launch {
             infoRepository.updateCustomer(customer)
@@ -39,9 +40,7 @@ class DetailsViewModel(application: Application) : AndroidViewModel(application)
 
 
 
-
-
-
+    // check if item is not empty
     fun isEntryValid(itemName: String, balance: String): Boolean {
         if (itemName.isBlank() || balance.isBlank()) {
             return false
@@ -58,6 +57,7 @@ class DetailsViewModel(application: Application) : AndroidViewModel(application)
     }
 
 
+    // use that to make insert
     private fun insertTransform(transform: Transform){
         viewModelScope.launch {
             infoRepository.insertTransform(transform)
@@ -70,8 +70,8 @@ class DetailsViewModel(application: Application) : AndroidViewModel(application)
 
     }
 
-//    val getCustomers = infoRepository.getCustomers.asLiveData()
 
+    // use that to get name from customer and remove name have same id
     fun getReceiver(id: Int){
         viewModelScope.launch {
           try {
@@ -87,6 +87,7 @@ class DetailsViewModel(application: Application) : AndroidViewModel(application)
     }
 
 
+    // use that to get data customer have this name
     fun getReceiverData(name: String){
         viewModelScope.launch {
             try {
