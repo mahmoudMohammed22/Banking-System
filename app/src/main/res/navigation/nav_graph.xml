@@ -33,5 +33,9 @@
         android:id="@+id/transformFragment"
         android:name="com.mahmoudtaskapp.bankingsystem.fragment.transform.TransformFragment"
         android:label="fragment_transform"
-        tools:layout="@layout/fragment_transform" />
+        tools:layout="@layout/fragment_transform" >
+        <action
+            android:id="@+id/action_transformFragment_to_customerFragment"
+            app:destination="@id/customerFragment" />
+    </fragment>
 </navigation>

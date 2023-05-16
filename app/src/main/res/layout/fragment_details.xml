@@ -75,7 +75,7 @@
             android:id="@+id/balance_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="textAutoComplete|textCapWords"
+            android:inputType="number"
             android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
