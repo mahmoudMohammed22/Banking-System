@@ -6,5 +6,9 @@
     <string name="accNum">AccountNumber : %s</string>
     <string name="balance">Balance : %s</string>
 
+    <string name="sender">Sender Name : %s</string>
+    <string name="recipient">Recipient Name : %s</string>
+    <string name="amount">Amount : %s</string>
+
 
 </resources>

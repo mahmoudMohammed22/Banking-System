@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.mahmoudtaskapp.bankingsystem.R
 import com.mahmoudtaskapp.bankingsystem.databinding.FragmentDetailsBinding
@@ -123,6 +124,7 @@ class DetailsFragment : Fragment() {
                 false
             }
         }
+        Toast.makeText(requireContext(), "Write amount " , Toast.LENGTH_SHORT).show()
         return false
     }
 
@@ -144,6 +146,7 @@ class DetailsFragment : Fragment() {
                 }
 
         }
+        Toast.makeText(requireContext(), "Write receiver Name" , Toast.LENGTH_SHORT).show()
         return false
     }
 
@@ -152,6 +155,7 @@ class DetailsFragment : Fragment() {
             senderName.toString(),recipientName.toString(), amount.toString()
         )
         Toast.makeText(requireContext(), "Done Transform", Toast.LENGTH_SHORT).show()
+        findNavController().navigate(DetailsFragmentDirections.actionDetailsFragmentToCustomerFragment())
 
     }
 

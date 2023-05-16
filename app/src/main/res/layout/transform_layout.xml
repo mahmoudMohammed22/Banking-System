@@ -4,15 +4,16 @@
 
     <data>
         <variable
-            name="dataCutomer"
-            type="com.mahmoudtaskapp.bankingsystem.module.Customer" />
+            name="dataTransform"
+            type="com.mahmoudtaskapp.bankingsystem.module.Transform" />
 
     </data>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="6dp">
+        android:layout_margin="16dp">
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -25,16 +26,16 @@
                 android:id="@+id/sender_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{@string/name(dataCutomer.customerName)}"
+                android:text="@{@string/sender(dataTransform.senderName)}"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/recirver_name"
+                android:id="@+id/receiver_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{@string/accNum(dataCutomer.accountNum)}"
+                android:text="@{@string/recipient(dataTransform.recipientName)}"
                 android:textSize="14sp"
                 android:layout_marginTop="6dp"
                 android:textColor="@android:color/darker_gray"
@@ -46,13 +47,13 @@
                 android:id="@+id/amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{@string/balance(dataCutomer.balance)}"
+                android:text="@{@string/amount(dataTransform.amount)}"
                 android:textSize="16sp"
                 android:layout_marginTop="6dp"
                 android:textColor="@android:color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/recirver_name" />
+                app:layout_constraintTop_toBottomOf="@id/receiver_name" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

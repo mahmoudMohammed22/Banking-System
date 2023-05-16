@@ -49,6 +49,10 @@ class CustomerFragment : Fragment() {
 
         }
 
+        binding.transform.setOnClickListener{
+            findNavController().navigate(CustomerFragmentDirections.actionCustomerFragmentToTransformFragment())
+        }
+
 
 
     }

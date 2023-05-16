@@ -13,8 +13,8 @@ class DetailsViewModel(application: Application) : AndroidViewModel(application)
 
 
 
-    private var _receiversName = MutableLiveData<List<String>>()
-    val receiversName: LiveData<List<String>> get() = _receiversName
+    private val _receiversName = MutableLiveData<List<String>>()
+    val receiversName: LiveData<List<String>>  = _receiversName
 
     val database = AppDatabase.getDatabase(application)
     val infoRepository = Respiratory(database)
@@ -29,24 +29,7 @@ class DetailsViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    private fun getUpdateItemEntry(customerId:Int,customerName: String, accNum: String, balance: String): Customer {
-        return Customer(
-            id=customerId,
-            customerName = customerName,
-            accountNum = accNum.toLong(),
-            balance = balance.toInt()
-        )
-    }
 
-    fun updateItem(
-        customerId: Int,
-        customerName: String,
-        accNum: String,
-        balance: String
-    ) {
-        val updatedItem = getUpdateItemEntry(customerId, customerName, accNum, balance)
-        updateBalanceCutomer(updatedItem)
-    }
 
 
 

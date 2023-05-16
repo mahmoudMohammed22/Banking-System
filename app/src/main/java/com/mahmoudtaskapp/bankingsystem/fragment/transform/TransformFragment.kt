@@ -5,10 +5,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.mahmoudtaskapp.bankingsystem.R
+import androidx.lifecycle.ViewModelProvider
+import com.mahmoudtaskapp.bankingsystem.databinding.FragmentTransformBinding
 
 
 class TransformFragment : Fragment() {
+
+    private var _binding : FragmentTransformBinding? = null
+    private val binding get() = _binding!!
+
+    private val viewModel : TransformViewModel by lazy {
+        ViewModelProvider(this)[TransformViewModel::class.java]
+    }
 
 
     override fun onCreateView(
@@ -16,7 +24,22 @@ class TransformFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_transform, container, false)
+        _binding = FragmentTransformBinding.inflate(layoutInflater,container,false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val adapter = TransformAdapter()
+
+        binding.transformRecycler.adapter = adapter
+
+        viewModel.transform.observe(this.viewLifecycleOwner){ dataTransform->
+            adapter.submitList(dataTransform)
+        }
+
+
     }
 
 

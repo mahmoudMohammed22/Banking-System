@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_customerFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
+        <action
+            android:id="@+id/action_customerFragment_to_transformFragment"
+            app:destination="@id/transformFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
@@ -22,5 +25,13 @@
         <argument
             android:name="item_id"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_detailsFragment_to_customerFragment"
+            app:destination="@id/customerFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/transformFragment"
+        android:name="com.mahmoudtaskapp.bankingsystem.fragment.transform.TransformFragment"
+        android:label="fragment_transform"
+        tools:layout="@layout/fragment_transform" />
 </navigation>
