@@ -8,11 +8,11 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "customers_table")
 data class Customer(
     @PrimaryKey(autoGenerate = true)
-    val id :Int = 0,
+    val id:Int = 0,
     @ColumnInfo(name = "name")
     val customerName: String,
     @ColumnInfo(name = "balance")
-    val balance: Int,
+    val balance: Long,
     @ColumnInfo(name = "accountNumber")
     val accountNum: Long
 )

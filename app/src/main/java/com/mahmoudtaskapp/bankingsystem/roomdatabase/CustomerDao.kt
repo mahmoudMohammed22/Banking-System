@@ -26,10 +26,10 @@ interface CustomerDao {
 
 
     @Query("SELECT * from customers_table WHERE name = :name")
-    fun getReceiverData(name:String): Customer
+    suspend fun getReceiverData(name:String): Customer
 
     @Query("SELECT * from customers_table WHERE id <> :customerId")
-     fun getReceiver(customerId: Int): List<Customer>
+     suspend fun getReceiverWithoutThisId(customerId: Int): List<Customer>
 
 
 

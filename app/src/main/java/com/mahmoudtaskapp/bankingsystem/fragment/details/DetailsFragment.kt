@@ -14,11 +14,6 @@ import androidx.navigation.fragment.navArgs
 import com.mahmoudtaskapp.bankingsystem.R
 import com.mahmoudtaskapp.bankingsystem.databinding.FragmentDetailsBinding
 import com.mahmoudtaskapp.bankingsystem.module.Customer
-import com.mahmoudtaskapp.bankingsystem.roomdatabase.AppDatabase
-import com.mahmoudtaskapp.bankingsystem.roomdatabase.loadCustomers
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import kotlin.math.log
 
 
 class DetailsFragment : Fragment() {
@@ -57,7 +52,7 @@ class DetailsFragment : Fragment() {
 
 
         // use that to get name from customer and remove name clicked about it
-         viewModel.getReceiver(id)
+         viewModel.getReceiverWithoutThisId(id)
 
 
         viewModel.getCustomer(id).observe(this.viewLifecycleOwner){ displayCustomer->
@@ -90,10 +85,9 @@ class DetailsFragment : Fragment() {
             balance.text = getString(R.string.balance,customer.balance)
 
             binding.transform.setOnClickListener {
-                if (updateCustomerRecipient(customerName)){
-                    if (updateCustomerSender(customer)){
+                if (updateCustomerRecipient(customerName,customer)){
                         addTransfromItem()
-                    }
+
                 }
             }
         }
@@ -110,7 +104,7 @@ class DetailsFragment : Fragment() {
 
     // update sender customer
     private fun updateCustomerSender(customer: Customer) : Boolean{
-        return if (customer.balance >= binding.balanceName.text.toString().toInt()){
+        return if (customer.balance >= binding.balanceName.text.toString().toLong()){
             val newItem = customer.copy(balance = customer.balance - binding.balanceName.text.toString().toInt())
             viewModel.updateBalanceCutomer(newItem)
             senderName = customer.customerName
@@ -118,24 +112,31 @@ class DetailsFragment : Fragment() {
             true
 
         }else{
-            Toast.makeText(requireContext(),"Amount is bigger than balance",Toast.LENGTH_SHORT).show()
             false
         }
     }
 
     // update receiver customer
-    private fun updateCustomerRecipient(customerName : List<String>) : Boolean{
+    private fun updateCustomerRecipient(customerName : List<String>,customer: Customer) : Boolean{
         if (isEntryValid()){
                 if (binding.receiverName.text.toString() in customerName){
-                    viewModel.getReceiverData(binding.receiverName.text.toString())
-                    viewModel.customer.observe(this.viewLifecycleOwner){
-                      val newItem =  it.balance + binding.balanceName.text.toString().toInt()
-                        viewModel.updateBalanceCutomer(Customer(it.id,it.customerName,newItem,it.accountNum))
-                        Log.d("log","customerNmae: $recipientName")
-                        Log.d("log","customerNS: $it")
+                    if(updateCustomerSender(customer)) {
+                        viewModel.getReceiverData(binding.receiverName.text.toString())
+                        viewModel.customer.observe(this.viewLifecycleOwner) {
+                            val newItem = it.balance + binding.balanceName.text.toString().toLong()
+                            viewModel.updateBalanceCutomer(
+                                Customer(it.id, it.customerName, newItem, it.accountNum
+                                )
+                            )
+                            Log.d("log", "customerNmae: $recipientName")
+                            Log.d("log", "customerNS: $it")
+                        }
+                        recipientName = binding.receiverName.text.toString()
+                        return true
+                    }else{
+                        Toast.makeText(requireContext(),"Amount is bigger than balance",Toast.LENGTH_SHORT).show()
+                        return false
                     }
-                    recipientName = binding.receiverName.text.toString()
-                    return true
 
                 }else{
                     Toast.makeText(requireContext(), "Not Found" , Toast.LENGTH_SHORT).show()

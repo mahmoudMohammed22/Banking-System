@@ -7,7 +7,6 @@ import com.mahmoudtaskapp.bankingsystem.module.Customer
 import com.mahmoudtaskapp.bankingsystem.module.Transform
 import com.mahmoudtaskapp.bankingsystem.repositrey.Respiratory
 import com.mahmoudtaskapp.bankingsystem.roomdatabase.AppDatabase
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class DetailsViewModel(application: Application) : AndroidViewModel(application) {
@@ -72,7 +71,7 @@ class DetailsViewModel(application: Application) : AndroidViewModel(application)
 
 
     // use that to get name from customer and remove name have same id
-    fun getReceiver(id: Int){
+    fun getReceiverWithoutThisId(id: Int){
         viewModelScope.launch {
           try {
             val customerList = infoRepository.getReceiver(id)
